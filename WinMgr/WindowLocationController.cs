@@ -12,6 +12,6 @@ namespace WinMgr
         [DllImport("user32.dll")]
         public static extern IntPtr GetForegroundWindow();
 
-
+       
     }
 }
