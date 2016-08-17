@@ -91,9 +91,12 @@
     <Compile Include="Specifications\ActionMarshallerSpecification.cs" />
     <Compile Include="IActionMarshaller.cs" />
     <Compile Include="IActionSource.cs" />
+    <Compile Include="Window.cs" />
+    <Compile Include="WindowController.cs" />
     <Compile Include="WindowLocationManager.cs" />
     <Compile Include="Specifications\WindowLocationManagerSpecification.cs" />
     <Compile Include="WindowLocationController.cs" />
+    <Compile Include="WindowLocator.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

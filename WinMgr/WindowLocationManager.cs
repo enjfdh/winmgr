@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WinMgr.Specifications
+namespace WinMgr
 {
     public class WindowLocationManager : IWindowLocationManager
     {
