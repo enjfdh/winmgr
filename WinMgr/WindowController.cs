@@ -4,12 +4,7 @@ namespace WinMgr
 {
     public class WindowController : IWindowController
     {
-        public void Maximise(IWindow window)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void MoveLeft(IWindow window)
+        public void SetWindowLocation(IntPtr windowPointer, int xLocation, int yLocation, int width, int height)
         {
             throw new NotImplementedException();
         }

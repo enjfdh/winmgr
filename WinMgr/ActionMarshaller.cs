@@ -6,18 +6,26 @@ namespace WinMgr
     {
         private IWindowLocationManager _manager;
         private IActionSource _actionSource;
-        
+        private IDisposable _actionsSubscription; 
 
         public ActionMarshaller(IWindowLocationManager manager, IActionSource actionSource)
         {
             _manager = manager;
             _actionSource = actionSource;
-            _actionSource.Actions.Subscribe(HandleAction);
+            _actionsSubscription = _actionSource.Actions.Subscribe(HandleAction);
         }
 
         private void HandleAction(Action action)
         {
-            _manager.Maximise();
+            switch (action)
+            {
+                case Action.Maximise:
+                    _manager.Maximise();
+                    break;
+                case Action.Left:
+                    _manager.LeftHalf();
+                    break;
+            }
         }
     }
 }

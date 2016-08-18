@@ -7,23 +7,26 @@ namespace WinMgr.Console
     {
         static void Main(string[] args)
         {
-            string command;
             var source = new ConsoleActionSource();
-            var manager = new WindowLocationManager(new WindowLocator(), new WindowController());
-            var marshaller = new ActionMarshaller(manager, new ConsoleActionSource());
+            var manager = new WindowLocationManager(new WindowLocator(), new WindowController(), 
+                new WindowsScreen());
+            var marshaller = new ActionMarshaller(manager, source);
 
-            while((command = System.Console.ReadLine()) != "quit")
+            string command;
+            while ((command = System.Console.ReadLine()) != "quit")
             {
                 switch (command)
                 {
                     case "maximise":
                         source.Maximise();
                         break;
+                    case "lhalf":
+                        source.LeftHalf();
+                        break;
                 }
             }
         }
-
-
+        
         public class ConsoleActionSource : IActionSource
         {
             private Subject<Action> _actions = new Subject<Action>();
@@ -39,6 +42,11 @@ namespace WinMgr.Console
             public void Maximise()
             {
                 _actions.OnNext(Action.Maximise);
+            }
+
+            internal void LeftHalf()
+            {
+                _actions.OnNext(Action.Left);
             }
         }
     }

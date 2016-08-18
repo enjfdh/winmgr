@@ -2,6 +2,7 @@
 {
     public enum Action
     {
-        Maximise
+        Maximise,
+        Left
     }
 }

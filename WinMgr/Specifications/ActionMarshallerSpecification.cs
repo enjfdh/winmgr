@@ -7,21 +7,44 @@ namespace WinMgr.Specifications
     [TestFixture]
     public class ActionMarshallerSpecification
     {
+        private Mock<IWindowLocationManager> _manager;
+        private Mock<IActionSource> _actionSource;
+        private Subject<Action> _actions;
+        private IActionMarshaller _subject;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _manager = new Mock<IWindowLocationManager>();
+            _actionSource = new Mock<IActionSource>();
+            _actions = new Subject<Action>();
+            _actionSource.SetupGet(x => x.Actions).Returns(_actions);
+
+            IActionMarshaller subject = new ActionMarshaller(_manager.Object, _actionSource.Object);
+        }
+
         [Test]
         public void Should_Marshall_Maximise_Action()
         {
             //Arrange
-            var manager = new Mock<IWindowLocationManager>();
-            var actionSource = new Mock<IActionSource>();
-            Subject<Action> actions = new Subject<Action>();
-            actionSource.SetupGet(x => x.Actions).Returns(actions);
-            IActionMarshaller subject = new ActionMarshaller(manager.Object, actionSource.Object);
             
             //Act
-            actions.OnNext(Action.Maximise);
+            _actions.OnNext(Action.Maximise);
 
             //Assert
-            manager.Verify(x => x.Maximise());
+            _manager.Verify(x => x.Maximise());
+        }
+
+        [Test]
+        public void Should_Marshall_LeftHalf_Action()
+        {
+            //Arrange
+
+            //Act
+            _actions.OnNext(Action.Left);
+
+            //Assert
+            _manager.Verify(x => x.LeftHalf());
         }
     }
 }

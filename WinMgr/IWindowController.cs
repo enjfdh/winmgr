@@ -1,8 +1,9 @@
-﻿namespace WinMgr
+﻿using System;
+
+namespace WinMgr
 {
     public interface IWindowController
     {
-        void Maximise(IWindow window);
-        void MoveLeft(IWindow window);
+        void SetWindowLocation(IntPtr windowPointer, int xLocation, int yLocation, int width, int height);
     }
 }

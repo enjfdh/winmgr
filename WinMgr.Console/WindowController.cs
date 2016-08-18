@@ -1,17 +1,19 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace WinMgr.Console
 {
     public class WindowController : IWindowController
     {
-        public void Maximise(IWindow window)
-        {
-            throw new NotImplementedException();
-        }
+        [DllImport("user32.dll", EntryPoint = "SetWindowPos")]
+        private static extern IntPtr SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int Y, int cx, int cy, int wFlags);
 
-        public void MoveLeft(IWindow window)
+        private const int SWP_SHOWWINDOW = 0x0040;
+        private const int HWND_TOP = 0;
+
+        public void SetWindowLocation(IntPtr windowPointer, int xLocation, int yLocation, int width, int height)
         {
-            throw new NotImplementedException();
+            SetWindowPos(windowPointer, HWND_TOP, xLocation, yLocation, width, height, SWP_SHOWWINDOW);
         }
     }
 }

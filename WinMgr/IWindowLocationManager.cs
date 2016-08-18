@@ -3,6 +3,6 @@
     public interface IWindowLocationManager
     {
         void Maximise();
-        void MoveLeft();
+        void LeftHalf();
     }
 }
