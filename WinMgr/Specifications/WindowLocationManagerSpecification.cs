@@ -82,8 +82,10 @@ namespace WinMgr.Specifications
         public void Should_Move_Pair_To_Left_Thirds()
         {
             //Arrange
-            var window1 = new WindowStub(0);
-            var window2 = new WindowStub(1);
+            var ptr1 = new IntPtr(1);
+            var ptr2 = new IntPtr(2);
+            var window1 = new WindowStub(ptr1);
+            var window2 = new WindowStub(ptr2);
             _locator.Reset();
             _locator.Setup(x => x.GetCurrentWindow()).Returns(window1);
 
@@ -95,7 +97,15 @@ namespace WinMgr.Specifications
             _subject.MoveLeft();
 
             //Assert
-
+            Assert.AreEqual(0, _controller.Windows[ptr1].XLocation);
+            Assert.AreEqual(0, _controller.Windows[ptr1].YLocation);
+            Assert.AreEqual(_screen.Object.Width / 3, _controller.Windows[ptr1].Width);
+            Assert.AreEqual(_screen.Object.Height, _controller.Windows[ptr1].Height);
+            
+            Assert.AreEqual(_screen.Object.Width / 3 , _controller.Windows[ptr2].XLocation);
+            Assert.AreEqual(0, _controller.Windows[ptr2].YLocation);
+            Assert.AreEqual(_screen.Object.Width / 2, _controller.Windows[ptr2].Width);
+            Assert.AreEqual(_screen.Object.Height, _controller.Windows[ptr2].Height);
 
         }
     }
@@ -122,9 +132,9 @@ public class WindowControllerStub : IWindowController
 
 public class WindowStub : IWindow
 {
-    public WindowStub(int ptr)
+    public WindowStub(IntPtr ptr)
     {
-        Pointer = new IntPtr(ptr);
+        Pointer = ptr;
     }
 
     public IntPtr Pointer { get; private set; }
