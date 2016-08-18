@@ -3,6 +3,7 @@
     public enum Action
     {
         Maximise,
-        Left
+        Left,
+        Right
     }
 }

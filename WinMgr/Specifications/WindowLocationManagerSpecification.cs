@@ -50,10 +50,23 @@ namespace WinMgr.Specifications
             //Arrange
 
             //Act
-            _subject.LeftHalf();
+            _subject.MoveLeft();
 
             //Assert
             _controller.Verify(x => x.SetWindowLocation(_windowPointer, 0, 0, _screen.Object.Width / 2,
+                _screen.Object.Height));
+        }
+
+        [Test]
+        public void Should_Move_Current_Window_To_Right_Half()
+        {
+            //Arrange
+
+            //Act
+            _subject.MoveRight();
+
+            //Assert
+            _controller.Verify(x => x.SetWindowLocation(_windowPointer, _screen.Object.Width / 2, 0, _screen.Object.Width / 2,
                 _screen.Object.Height));
         }
     }

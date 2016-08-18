@@ -36,7 +36,7 @@ namespace WinMgr.Specifications
         }
 
         [Test]
-        public void Should_Marshall_LeftHalf_Action()
+        public void Should_Marhall_Move_Left()
         {
             //Arrange
 
@@ -44,7 +44,19 @@ namespace WinMgr.Specifications
             _actions.OnNext(Action.Left);
 
             //Assert
-            _manager.Verify(x => x.LeftHalf());
+            _manager.Verify(x => x.MoveLeft());
+        }
+
+        [Test]
+        public void Should_Marhall_Move_Right()
+        {
+            //Arrange
+
+            //Act
+            _actions.OnNext(Action.Right);
+
+            //Assert
+            _manager.Verify(x => x.MoveRight());
         }
     }
 }

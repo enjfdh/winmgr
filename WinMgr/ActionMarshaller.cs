@@ -23,7 +23,10 @@ namespace WinMgr
                     _manager.Maximise();
                     break;
                 case Action.Left:
-                    _manager.LeftHalf();
+                    _manager.MoveLeft();
+                    break;
+                case Action.Right:
+                    _manager.MoveRight();
                     break;
             }
         }

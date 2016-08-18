@@ -25,11 +25,21 @@ namespace WinMgr
                 _screen.Height);
         }
 
-        public void LeftHalf()
+        public void MoveLeft()
         {
             _controller.SetWindowLocation(
                 _locator.GetCurrentWindow().Pointer,
                 0,
+                0,
+                _screen.Width / 2,
+                _screen.Height);
+        }
+
+        public void MoveRight()
+        {
+            _controller.SetWindowLocation(
+                _locator.GetCurrentWindow().Pointer,
+                _screen.Width / 2,
                 0,
                 _screen.Width / 2,
                 _screen.Height);
