@@ -79,34 +79,27 @@ namespace WinMgr.Specifications
         }
 
         [Test]
-        public void Should_Move_Pair_To_Left_Thirds()
+        public void Should_Move_Left_Half_Window_To_Left_Third()
         {
             //Arrange
-            var ptr1 = new IntPtr(1);
-            var ptr2 = new IntPtr(2);
-            var window1 = new WindowStub(ptr1);
-            var window2 = new WindowStub(ptr2);
+            var window = new WindowStub(
+                _windowPointer,
+                0,
+                0,
+                _screen.Object.Width / 2,
+                _screen.Object.Height);
+
             _locator.Reset();
-            _locator.Setup(x => x.GetCurrentWindow()).Returns(window1);
+            _locator.Setup(x => x.GetCurrentWindow()).Returns(window);
 
             //Act
             _subject.MoveLeft();
-            _locator.Setup(x => x.GetCurrentWindow()).Returns(window2);
-            _subject.MoveRight();
-
-            _subject.MoveLeft();
 
             //Assert
-            Assert.AreEqual(0, _controller.Windows[ptr1].XLocation);
-            Assert.AreEqual(0, _controller.Windows[ptr1].YLocation);
-            Assert.AreEqual(_screen.Object.Width / 3, _controller.Windows[ptr1].Width);
-            Assert.AreEqual(_screen.Object.Height, _controller.Windows[ptr1].Height);
-            
-            Assert.AreEqual(_screen.Object.Width / 3 , _controller.Windows[ptr2].XLocation);
-            Assert.AreEqual(0, _controller.Windows[ptr2].YLocation);
-            Assert.AreEqual(_screen.Object.Width / 2, _controller.Windows[ptr2].Width);
-            Assert.AreEqual(_screen.Object.Height, _controller.Windows[ptr2].Height);
-
+            Assert.AreEqual(0, _controller.Windows[_windowPointer].XLocation);
+            Assert.AreEqual(0, _controller.Windows[_windowPointer].YLocation);
+            Assert.AreEqual(_screen.Object.Width / 3, _controller.Windows[_windowPointer].Width);
+            Assert.AreEqual(_screen.Object.Height, _controller.Windows[_windowPointer].Height);
         }
     }
 }
@@ -137,6 +130,18 @@ public class WindowStub : IWindow
         Pointer = ptr;
     }
 
+    public WindowStub(IntPtr ptr, int xLocation, int yLocation, int width, int height) : this(ptr)
+    {
+        XLocation = xLocation;
+        YLocation = yLocation;
+        Width = width;
+        Height = height;
+    }
+    
     public IntPtr Pointer { get; private set; }
+    public int XLocation { get; private set; }
+    public int YLocation { get; private set; }
+    public int Width { get; private set; }
+    public int Height { get; private set; }
 }
 
