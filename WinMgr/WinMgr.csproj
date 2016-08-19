@@ -95,6 +95,7 @@
     <Compile Include="IActionSource.cs" />
     <Compile Include="IScreen.cs" />
     <Compile Include="Specifications\WindowControllerSpecification.cs" />
+    <Compile Include="Specifications\WorkAreaSpecification.cs" />
     <Compile Include="Window.cs" />
     <Compile Include="WindowController.cs" />
     <Compile Include="WindowLocationManager.cs" />

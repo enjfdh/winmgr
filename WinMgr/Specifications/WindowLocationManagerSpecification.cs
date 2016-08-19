@@ -15,6 +15,8 @@ namespace WinMgr.Specifications
         private IWindowLocationManager _subject;
         private Mock<IWindow> _currentWindow;
         private IntPtr _windowPointer = new IntPtr(99);
+        private IntPtr _windowPointer1 = new IntPtr(1);
+        private IntPtr _windowPointer2 = new IntPtr(2);
         private int SCREEN_WIDTH = 100;
         private int SCREEN_HEIGHT = 200;
 
@@ -57,10 +59,7 @@ namespace WinMgr.Specifications
             _subject.MoveLeft();
 
             //Assert
-            Assert.AreEqual(0, _controller.Windows[_windowPointer].XLocation);
-            Assert.AreEqual(0, _controller.Windows[_windowPointer].YLocation);
-            Assert.AreEqual(_screen.Object.Width / 2, _controller.Windows[_windowPointer].Width);
-            Assert.AreEqual(_screen.Object.Height, _controller.Windows[_windowPointer].Height);
+            AssertInLeftHalf(_controller.Windows[_windowPointer]);
         }
 
         [Test]
@@ -82,12 +81,7 @@ namespace WinMgr.Specifications
         public void Should_Move_Left_Half_Window_To_Left_Third()
         {
             //Arrange
-            var window = new WindowStub(
-                _windowPointer,
-                0,
-                0,
-                _screen.Object.Width / 2,
-                _screen.Object.Height);
+            var window = WindowStub.LeftHalfWindow(_windowPointer, _screen.Object);
 
             _locator.Reset();
             _locator.Setup(x => x.GetCurrentWindow()).Returns(window);
@@ -96,10 +90,65 @@ namespace WinMgr.Specifications
             _subject.MoveLeft();
 
             //Assert
-            Assert.AreEqual(0, _controller.Windows[_windowPointer].XLocation);
-            Assert.AreEqual(0, _controller.Windows[_windowPointer].YLocation);
-            Assert.AreEqual(_screen.Object.Width / 3, _controller.Windows[_windowPointer].Width);
-            Assert.AreEqual(_screen.Object.Height, _controller.Windows[_windowPointer].Height);
+            AssertInLeftThird(_controller.Windows[_windowPointer]);
+        }
+
+        [Test]
+        public void Should_Move_Left_Third_Window_To_Left_Half()
+        {
+            //Arrange
+            var window = WindowStub.LeftThirdWindow(_windowPointer, _screen.Object);
+
+            _locator.Reset();
+            _locator.Setup(x => x.GetCurrentWindow()).Returns(window);
+
+            //Act
+            _subject.MoveRight();
+
+            //Assert
+            AssertInLeftHalf(_controller.Windows[_windowPointer]);
+        }
+
+        [Test]
+        public void When_Moving_Left_Window_To_Third_Should_Stretch_Right_Window_To_Fit()
+        {
+            //Arrange
+            var lHalfWindow = WindowStub.LeftHalfWindow(_windowPointer1, _screen.Object);
+            var rHalfwindow = WindowStub.RightHalfWindow(_windowPointer2, _screen.Object);
+
+            _locator.Reset();
+            _locator.Setup(x => x.GetCurrentWindow()).Returns(lHalfWindow);
+
+            //Act
+            _subject.MoveLeft();
+
+            //Assert
+            AssertInLeftHalf(_controller.Windows[_windowPointer]);
+            AssertInRightTwoThirds(_controller.Windows[_windowPointer]);
+        }
+
+        private void AssertInLeftHalf(IWindow window)
+        {
+            Assert.AreEqual(0, window.XLocation);
+            Assert.AreEqual(0, window.YLocation);
+            Assert.AreEqual(_screen.Object.Width / 2, window.Width);
+            Assert.AreEqual(_screen.Object.Height, window.Height);
+        }
+
+        private void AssertInLeftThird(IWindow window)
+        {
+            Assert.AreEqual(0, window.XLocation);
+            Assert.AreEqual(0, window.YLocation);
+            Assert.AreEqual(_screen.Object.Width / 3, window.Width);
+            Assert.AreEqual(_screen.Object.Height, window.Height);
+        }
+
+        private void AssertInRightTwoThirds(IWindow window)
+        {
+            Assert.AreEqual((_screen.Object.Width / 3) + 1, window.XLocation);
+            Assert.AreEqual(0, window.YLocation);
+            Assert.AreEqual(_screen.Object.Width - (_screen.Object.Width / 3) , window.Width);
+            Assert.AreEqual(_screen.Object.Height, window.Height);
         }
     }
 }
@@ -113,14 +162,14 @@ public class WindowControllerStub : IWindowController
         Windows[windowPointer] = new WindowInfo { XLocation = xLocation, YLocation = yLocation, Width = width, Height = height };
     }
 
-    public class WindowInfo
+    public class WindowInfo : IWindow
     {
+        public IntPtr Pointer { get; set; }
         public int XLocation { get; set; }
         public int YLocation { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
     }
-    public int XLocation { get; set; }
 }
 
 public class WindowStub : IWindow
@@ -143,5 +192,35 @@ public class WindowStub : IWindow
     public int YLocation { get; private set; }
     public int Width { get; private set; }
     public int Height { get; private set; }
+
+    public static IWindow LeftHalfWindow(IntPtr ptr, IScreen screen)
+    {
+        return new WindowStub(
+                ptr,
+                0,
+                0,
+                screen.Width / 2,
+                screen.Height);
+    }
+
+    public static IWindow RightHalfWindow(IntPtr ptr, IScreen screen)
+    {
+        return new WindowStub(
+                ptr,
+                screen.Width / 2,
+                0,
+                screen.Width / 2,
+                screen.Height);
+    }
+
+    public static IWindow LeftThirdWindow(IntPtr ptr, IScreen screen)
+    {
+        return new WindowStub(
+                ptr,
+                0,
+                0,
+                screen.Width / 3,
+                screen.Height);
+    }
 }
 
