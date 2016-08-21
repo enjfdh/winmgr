@@ -8,7 +8,7 @@ namespace WinMgr
         {
             get
             {
-                return Screen.PrimaryScreen.Bounds.Height;
+                return Screen.PrimaryScreen.WorkingArea.Height;
             }
         }
 
@@ -16,7 +16,7 @@ namespace WinMgr
         {
             get
             {
-                return Screen.PrimaryScreen.Bounds.Width;
+                return Screen.PrimaryScreen.WorkingArea.Width;
             }
         }
     }
