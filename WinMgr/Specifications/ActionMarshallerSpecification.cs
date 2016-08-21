@@ -22,18 +22,7 @@ namespace WinMgr.Specifications
 
             IActionMarshaller subject = new ActionMarshaller(_manager.Object, _actionSource.Object);
         }
-
-        [Test]
-        public void Should_Marshall_Maximise_Action()
-        {
-            //Arrange
-            
-            //Act
-            _actions.OnNext(Action.Maximise);
-
-            //Assert
-            _manager.Verify(x => x.Maximise());
-        }
+        
 
         [Test]
         public void Should_Marhall_Move_Left()
@@ -41,7 +30,7 @@ namespace WinMgr.Specifications
             //Arrange
 
             //Act
-            _actions.OnNext(Action.Left);
+            _actions.OnNext(Action.WorkArea2Left);
 
             //Assert
             _manager.Verify(x => x.MoveLeft());
@@ -53,7 +42,7 @@ namespace WinMgr.Specifications
             //Arrange
 
             //Act
-            _actions.OnNext(Action.Right);
+            _actions.OnNext(Action.WorkArea2Right);
 
             //Assert
             _manager.Verify(x => x.MoveRight());

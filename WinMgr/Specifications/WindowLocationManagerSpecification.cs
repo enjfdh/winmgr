@@ -109,24 +109,6 @@ namespace WinMgr.Specifications
             AssertInLeftHalf(_controller.Windows[_windowPointer]);
         }
 
-        [Test]
-        public void When_Moving_Left_Window_To_Third_Should_Stretch_Right_Window_To_Fit()
-        {
-            //Arrange
-            var lHalfWindow = WindowStub.LeftHalfWindow(_windowPointer1, _screen.Object);
-            var rHalfwindow = WindowStub.RightHalfWindow(_windowPointer2, _screen.Object);
-
-            _locator.Reset();
-            _locator.Setup(x => x.GetCurrentWindow()).Returns(lHalfWindow);
-
-            //Act
-            _subject.MoveLeft();
-
-            //Assert
-            AssertInLeftHalf(_controller.Windows[_windowPointer]);
-            AssertInRightTwoThirds(_controller.Windows[_windowPointer]);
-        }
-
         private void AssertInLeftHalf(IWindow window)
         {
             Assert.AreEqual(0, window.XLocation);
@@ -221,6 +203,14 @@ public class WindowStub : IWindow
                 0,
                 screen.Width / 3,
                 screen.Height);
+    }
+
+    public override bool Equals(object obj)
+    {
+        var o = obj as WindowStub;
+        if (o == null) return false;
+
+        return o.Pointer == Pointer;
     }
 }
 

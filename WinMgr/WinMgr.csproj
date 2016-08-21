@@ -81,6 +81,8 @@
   <ItemGroup>
     <Compile Include="HotKeyActionSource.cs" />
     <Compile Include="HotKeyManager.cs" />
+    <Compile Include="IWorkArea.cs" />
+    <Compile Include="IWorkAreaOrganiser.cs" />
     <Compile Include="ProcessIcon.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,6 +96,10 @@
     <Compile Include="IActionMarshaller.cs" />
     <Compile Include="IActionSource.cs" />
     <Compile Include="IScreen.cs" />
+    <Compile Include="Specifications\Desk.cs" />
+    <Compile Include="Specifications\DeskSpecification.cs" />
+    <Compile Include="Specifications\IDesk.cs" />
+    <Compile Include="Specifications\IWorkAreaFactory.cs" />
     <Compile Include="Specifications\WindowControllerSpecification.cs" />
     <Compile Include="Specifications\WorkAreaSpecification.cs" />
     <Compile Include="Window.cs" />
@@ -103,6 +109,7 @@
     <Compile Include="WindowLocationController.cs" />
     <Compile Include="WindowLocator.cs" />
     <Compile Include="WindowsScreen.cs" />
+    <Compile Include="WorkArea.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

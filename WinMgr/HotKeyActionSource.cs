@@ -20,10 +20,10 @@ namespace WinMgr
             switch(e.Key)
             {
                 case Keys.Left:
-                    _actions.OnNext(Action.Left);
+                    _actions.OnNext(Action.WorkArea2Left);
                     break;
                 case Keys.Right:
-                    _actions.OnNext(Action.Right);
+                    _actions.OnNext(Action.WorkArea2Right);
                     break;
             }
         }

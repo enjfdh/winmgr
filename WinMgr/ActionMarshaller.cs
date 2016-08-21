@@ -19,13 +19,10 @@ namespace WinMgr
         {
             switch (action)
             {
-                case Action.Maximise:
-                    _manager.Maximise();
-                    break;
-                case Action.Left:
+                case Action.WorkArea2Left:
                     _manager.MoveLeft();
                     break;
-                case Action.Right:
+                case Action.WorkArea2Right:
                     _manager.MoveRight();
                     break;
             }

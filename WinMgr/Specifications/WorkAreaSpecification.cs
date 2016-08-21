@@ -8,13 +8,13 @@ namespace WinMgr.Specifications
     }
 
     [TestFixture]
-    public class When_Recording_Windows
+    public class When_Setting_Windows
     {
         [Test]
-        public void Should_Record_Left_Window()
+        public void Should_Set_Left_Window()
         {
             //Arrange
-            IWorkArea subject = new WorkArea();
+            IWorkAreaOrganiser subject = new WorkArea();
             var window = new WindowStub(new IntPtr(0));
 
             //Act
@@ -23,33 +23,23 @@ namespace WinMgr.Specifications
             //Assert
             Assert.AreEqual(window, subject.LeftWindow);
         }
-    }
 
-    internal class WorkArea : IWorkArea
-    {
-        public IWindow LeftWindow
+        [Test]
+        public void Should_Set_Right_Window()
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            //Arrange
+            IWorkAreaOrganiser subject = new WorkArea();
+            var window = new WindowStub(new IntPtr(0));
 
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+            //Act
+            subject.SetRightWindow(window);
 
-        public void SetLeftWindow(WindowStub window)
-        {
-            throw new NotImplementedException();
+            //Assert
+            Assert.AreEqual(window, subject.RightWindow);
         }
     }
 
-    internal interface IWorkArea
-    {
-        IWindow LeftWindow { get; set; }
+    
 
-        void SetLeftWindow(WindowStub window);
-    }
+    
 }
