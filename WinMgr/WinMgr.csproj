@@ -91,25 +91,23 @@
     <Compile Include="IWindowLocationManager.cs" />
     <Compile Include="IWindowLocator.cs" />
     <Compile Include="Action.cs" />
-    <Compile Include="ActionMarshaller.cs" />
-    <Compile Include="Specifications\ActionMarshallerSpecification.cs" />
     <Compile Include="IActionMarshaller.cs" />
     <Compile Include="IActionSource.cs" />
     <Compile Include="IScreen.cs" />
-    <Compile Include="Specifications\Desk.cs" />
+    <Compile Include="Desk.cs" />
     <Compile Include="Specifications\DeskSpecification.cs" />
-    <Compile Include="Specifications\IDesk.cs" />
-    <Compile Include="Specifications\IWorkAreaFactory.cs" />
+    <Compile Include="IDesk.cs" />
+    <Compile Include="IWorkAreaFactory.cs" />
     <Compile Include="Specifications\WindowControllerSpecification.cs" />
+    <Compile Include="Specifications\WindowControllerStub.cs" />
+    <Compile Include="Specifications\WindowStub.cs" />
     <Compile Include="Specifications\WorkAreaSpecification.cs" />
     <Compile Include="Window.cs" />
     <Compile Include="WindowController.cs" />
-    <Compile Include="WindowLocationManager.cs" />
-    <Compile Include="Specifications\WindowLocationManagerSpecification.cs" />
-    <Compile Include="WindowLocationController.cs" />
     <Compile Include="WindowLocator.cs" />
     <Compile Include="WindowsScreen.cs" />
     <Compile Include="WorkArea.cs" />
+    <Compile Include="WorkAreaFactory.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

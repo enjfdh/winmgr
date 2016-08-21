@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace WinMgr.Specifications
+namespace WinMgr
 {
-    internal class Desk : IDesk
+    public class Desk : IDesk
     {
         private IActionSource _actionSource;
         private IDisposable _actionSubscription;
@@ -55,6 +55,33 @@ namespace WinMgr.Specifications
                     break;
                 case Action.WorkArea1Right:
                     _workArea1.Right();
+                    break;
+                case Action.WorkArea1Activate:
+                    _workArea2.Deactivate();
+                    _workArea3.Deactivate();
+                    _workArea1.Activate();
+                    break;
+                case Action.WorkArea2Left:
+                    _workArea2.Left();
+                    break;
+                case Action.WorkArea2Right:
+                    _workArea2.Right();
+                    break;
+                case Action.WorkArea2Activate:
+                    _workArea1.Deactivate();
+                    _workArea3.Deactivate();
+                    _workArea2.Activate();
+                    break;
+                case Action.WorkArea3Left:
+                    _workArea3.Left();
+                    break;
+                case Action.WorkArea3Right:
+                    _workArea3.Right();
+                    break;
+                case Action.WorkArea3Activate:
+                    _workArea1.Deactivate();
+                    _workArea2.Deactivate();
+                    _workArea3.Activate();
                     break;
             }
         }

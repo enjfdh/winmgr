@@ -3,7 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Reactive.Subjects;
 
-namespace WinMgr.Specifications
+namespace WinMgr.Specifications.DeskSpecs
 {
     public abstract class DeskSpecification
     {
@@ -38,8 +38,7 @@ namespace WinMgr.Specifications
 
             _subject = new Desk(_actionSource.Object, _windowLocator.Object, _workAreaFactory.Object);
         }
-
-
+        
         protected void Send(Action action)
         {
             _actions.OnNext(action);
@@ -161,6 +160,96 @@ namespace WinMgr.Specifications
 
             //Assert
             _workArea1.Verify(x => x.Right());
+        }
+
+        [Test]
+        public void Should_Act_Left_On_WorkArea2()
+        {
+            //Arrange
+
+            //Act
+            Send(Action.WorkArea2Left);
+
+            //Assert
+            _workArea2.Verify(x => x.Left());
+        }
+
+        [Test]
+        public void Should_Act_Right_On_WorkArea2()
+        {
+            //Arrange
+
+            //Act
+            Send(Action.WorkArea2Right);
+
+            //Assert
+            _workArea2.Verify(x => x.Right());
+        }
+
+        [Test]
+        public void Should_Act_Left_On_WorkArea3()
+        {
+            //Arrange
+
+            //Act
+            Send(Action.WorkArea3Left);
+
+            //Assert
+            _workArea3.Verify(x => x.Left());
+        }
+
+        [Test]
+        public void Should_Act_Right_On_WorkArea3()
+        {
+            //Arrange
+
+            //Act
+            Send(Action.WorkArea3Right);
+
+            //Assert
+            _workArea3.Verify(x => x.Right());
+        }
+
+        [Test]
+        public void Should_Activate_WorkArea1_And_Deactivate_Others()
+        {
+            //Arrange
+
+            //Act
+            Send(Action.WorkArea1Activate);
+
+            //Assert
+            _workArea1.Verify(x => x.Activate());
+            _workArea2.Verify(x => x.Deactivate());
+            _workArea3.Verify(x => x.Deactivate());
+        }
+
+        [Test]
+        public void Should_Activate_WorkArea2_And_Deactivate_Others()
+        {
+            //Arrange
+
+            //Act
+            Send(Action.WorkArea2Activate);
+
+            //Assert
+            _workArea2.Verify(x => x.Activate());
+            _workArea1.Verify(x => x.Deactivate());
+            _workArea3.Verify(x => x.Deactivate());
+        }
+
+        [Test]
+        public void Should_Activate_WorkArea3_And_Deactivate_Others()
+        {
+            //Arrange
+
+            //Act
+            Send(Action.WorkArea3Activate);
+
+            //Assert
+            _workArea3.Verify(x => x.Activate());
+            _workArea1.Verify(x => x.Deactivate());
+            _workArea2.Verify(x => x.Deactivate());
         }
     }
 }

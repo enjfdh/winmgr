@@ -8,8 +8,10 @@
 
         WorkArea2Left,
         WorkArea2Right,
+        WorkArea2Activate,
 
         WorkArea3Left,
-        WorkArea3Right
+        WorkArea3Right,
+        WorkArea3Activate,
     }
 }

@@ -6,5 +6,7 @@
         void SetRightWindow(IWindow window);
         void Left();
         void Right();
+        void Activate();
+        void Deactivate();
     }
 }
