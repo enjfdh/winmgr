@@ -10,19 +10,17 @@ namespace WinMgr
 
         public void RegisterHotKeys()
         {
-            HotKeyManager.RegisterHotKey(Keys.Home, KeyModifiers.Alt);
-            HotKeyManager.RegisterHotKey(Keys.Up, KeyModifiers.Alt);
-            HotKeyManager.RegisterHotKey(Keys.PageUp, KeyModifiers.Alt);
-
             HotKeyManager.RegisterHotKey(Keys.Left, KeyModifiers.Alt);
             HotKeyManager.RegisterHotKey(Keys.Right, KeyModifiers.Alt);
-            HotKeyManager.RegisterHotKey(Keys.Clear, KeyModifiers.Alt);
 
-            HotKeyManager.RegisterHotKey(Keys.End, KeyModifiers.Alt);
-            HotKeyManager.RegisterHotKey(Keys.PageDown, KeyModifiers.Alt);
+            HotKeyManager.RegisterHotKey(Keys.NumPad1, KeyModifiers.Alt);
+            HotKeyManager.RegisterHotKey(Keys.NumPad2, KeyModifiers.Alt);
+            HotKeyManager.RegisterHotKey(Keys.NumPad3, KeyModifiers.Alt);
+
+            HotKeyManager.RegisterHotKey(Keys.Up, KeyModifiers.Alt);
             HotKeyManager.RegisterHotKey(Keys.Down, KeyModifiers.Alt);
+            HotKeyManager.RegisterHotKey(Keys.NumPad0, KeyModifiers.Alt);
 
-            HotKeyManager.RegisterHotKey(Keys.Insert, KeyModifiers.Alt);
 
             HotKeyManager.HotKeyPressed += HotKeyManager_HotKeyPressed;
         }
@@ -31,37 +29,28 @@ namespace WinMgr
         {
             switch(e.Key)
             {
-                case Keys.Home:
-                    _actions.OnNext(Action.WorkArea1Left);
-                    break;
-                case Keys.PageUp:
-                    _actions.OnNext(Action.WorkArea1Right);
-                    break;
-                case Keys.Up:
-                    _actions.OnNext(Action.WorkArea1Activate);
-                    break;
-
                 case Keys.Left:
-                    _actions.OnNext(Action.WorkArea2Left);
+                    _actions.OnNext(Action.Left);
                     break;
                 case Keys.Right:
-                    _actions.OnNext(Action.WorkArea2Right);
+                    _actions.OnNext(Action.Right);
                     break;
-                case Keys.Clear:
-                    _actions.OnNext(Action.WorkArea2Activate);
-                    break;
-
-                case Keys.End:
-                    _actions.OnNext(Action.WorkArea3Left);
-                    break;
-                case Keys.PageDown:
-                    _actions.OnNext(Action.WorkArea3Right);
+                case Keys.Up:
+                    _actions.OnNext(Action.Up);
                     break;
                 case Keys.Down:
+                    _actions.OnNext(Action.Down);
+                    break;
+                case Keys.NumPad1:
+                    _actions.OnNext(Action.WorkArea1Activate);
+                    break;
+                case Keys.NumPad2:
+                    _actions.OnNext(Action.WorkArea2Activate);
+                    break;
+                case Keys.NumPad3:
                     _actions.OnNext(Action.WorkArea3Activate);
                     break;
-
-                case Keys.Insert:
+                case Keys.NumPad0:
                     _actions.OnNext(Action.ActivateConsole);
                     break;
             }

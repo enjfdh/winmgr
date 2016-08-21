@@ -56,75 +56,39 @@ namespace WinMgr.Specifications.DeskSpecs
         }
 
         [Test]
-        public void Should_Add_Left_Window_To_WorkArea1()
+        [TestCase(Action.WorkArea1Activate)]
+        [TestCase(Action.WorkArea2Activate)]
+        [TestCase(Action.WorkArea3Activate)]
+        public void Should_Add_Left_Window_To_Active_Work_Area(Action activateAction)
         {
             //Arrange
 
             //Act
-            _actions.OnNext(Action.WorkArea1Left);
+            Send(activateAction);
+            Send(Action.Left);
 
             //Assert
-            _workArea1.Verify(x => x.SetLeftWindow(_window));
+            if (activateAction == Action.WorkArea1Activate) _workArea1.Verify(x => x.SetLeftWindow(_window));
+            else if (activateAction == Action.WorkArea2Activate) _workArea2.Verify(x => x.SetLeftWindow(_window));
+            else if (activateAction == Action.WorkArea3Activate) _workArea3.Verify(x => x.SetLeftWindow(_window));
         }
 
         [Test]
-        public void Should_Add_Right_Window_To_WorkArea1()
+        [TestCase(Action.WorkArea1Activate)]
+        [TestCase(Action.WorkArea2Activate)]
+        [TestCase(Action.WorkArea3Activate)]
+        public void Should_Add_Right_Window_To_Active_Work_Area(Action activateAction)
         {
             //Arrange
 
             //Act
-            _actions.OnNext(Action.WorkArea1Right);
+            Send(activateAction);
+            Send(Action.Right);
 
             //Assert
-            _workArea1.Verify(x => x.SetRightWindow(_window));
-        }
-
-        [Test]
-        public void Should_Add_Left_Window_To_WorkArea2()
-        {
-            //Arrange
-
-            //Act
-            _actions.OnNext(Action.WorkArea2Left);
-
-            //Assert
-            _workArea2.Verify(x => x.SetLeftWindow(_window));
-        }
-
-        [Test]
-        public void Should_Add_Right_Window_To_WorkArea2()
-        {
-            //Arrange
-
-            //Act
-            _actions.OnNext(Action.WorkArea2Right);
-
-            //Assert
-            _workArea2.Verify(x => x.SetRightWindow(_window));
-        }
-
-        [Test]
-        public void Should_Add_Left_Window_To_WorkArea3()
-        {
-            //Arrange
-
-            //Act
-            _actions.OnNext(Action.WorkArea3Left);
-
-            //Assert
-            _workArea3.Verify(x => x.SetLeftWindow(_window));
-        }
-
-        [Test]
-        public void Should_Add_Right_Window_To_WorkArea3()
-        {
-            //Arrange
-
-            //Act
-            _actions.OnNext(Action.WorkArea3Right);
-
-            //Assert
-            _workArea3.Verify(x => x.SetRightWindow(_window));
+            if (activateAction == Action.WorkArea1Activate) _workArea1.Verify(x => x.SetRightWindow(_window));
+            else if (activateAction == Action.WorkArea2Activate) _workArea2.Verify(x => x.SetRightWindow(_window));
+            else if (activateAction == Action.WorkArea3Activate) _workArea3.Verify(x => x.SetRightWindow(_window));
         }
     }
 
@@ -139,75 +103,39 @@ namespace WinMgr.Specifications.DeskSpecs
         }
 
         [Test]
-        public void Should_Act_Left_On_WorkArea1()
+        [TestCase(Action.WorkArea1Activate)]
+        [TestCase(Action.WorkArea2Activate)]
+        [TestCase(Action.WorkArea3Activate)]
+        public void Should_Act_Left_On_Active_WorkArea(Action activateAction)
         {
             //Arrange
 
             //Act
-            Send(Action.WorkArea1Left);
+            Send(activateAction);
+            Send(Action.Left);
 
             //Assert
-            _workArea1.Verify(x => x.Left());
+            if (activateAction == Action.WorkArea1Activate) _workArea1.Verify(x => x.Left());
+            else if (activateAction == Action.WorkArea2Activate) _workArea2.Verify(x => x.Left());
+            else if (activateAction == Action.WorkArea3Activate) _workArea3.Verify(x => x.Left());
         }
 
         [Test]
-        public void Should_Act_Right_On_WorkArea1()
+        [TestCase(Action.WorkArea1Activate)]
+        [TestCase(Action.WorkArea2Activate)]
+        [TestCase(Action.WorkArea3Activate)]
+        public void Should_Act_Right_On_Active_WorkArea(Action activateAction)
         {
             //Arrange
 
             //Act
-            Send(Action.WorkArea1Right);
+            Send(activateAction);
+            Send(Action.Right);
 
             //Assert
-            _workArea1.Verify(x => x.Right());
-        }
-
-        [Test]
-        public void Should_Act_Left_On_WorkArea2()
-        {
-            //Arrange
-
-            //Act
-            Send(Action.WorkArea2Left);
-
-            //Assert
-            _workArea2.Verify(x => x.Left());
-        }
-
-        [Test]
-        public void Should_Act_Right_On_WorkArea2()
-        {
-            //Arrange
-
-            //Act
-            Send(Action.WorkArea2Right);
-
-            //Assert
-            _workArea2.Verify(x => x.Right());
-        }
-
-        [Test]
-        public void Should_Act_Left_On_WorkArea3()
-        {
-            //Arrange
-
-            //Act
-            Send(Action.WorkArea3Left);
-
-            //Assert
-            _workArea3.Verify(x => x.Left());
-        }
-
-        [Test]
-        public void Should_Act_Right_On_WorkArea3()
-        {
-            //Arrange
-
-            //Act
-            Send(Action.WorkArea3Right);
-
-            //Assert
-            _workArea3.Verify(x => x.Right());
+            if (activateAction == Action.WorkArea1Activate) _workArea1.Verify(x => x.Right());
+            else if (activateAction == Action.WorkArea2Activate) _workArea2.Verify(x => x.Right());
+            else if (activateAction == Action.WorkArea3Activate) _workArea3.Verify(x => x.Right());
         }
 
         [Test]
@@ -250,6 +178,29 @@ namespace WinMgr.Specifications.DeskSpecs
             _workArea3.Verify(x => x.Activate());
             _workArea1.Verify(x => x.Deactivate());
             _workArea2.Verify(x => x.Deactivate());
+        }
+
+        [Test]
+        [TestCase(Action.WorkArea1Activate, 2,  Action.Down)]
+        [TestCase(Action.WorkArea2Activate, 3,  Action.Down)]
+        [TestCase(Action.WorkArea3Activate, 1,  Action.Down)]
+        [TestCase(Action.WorkArea1Activate, 3, Action.Up)]
+        [TestCase(Action.WorkArea2Activate, 1, Action.Up)]
+        [TestCase(Action.WorkArea3Activate, 2, Action.Up)]
+
+        [TestCase(Action.WorkArea1Activate, 1, Action.Down, Action.Up)]
+        public void Should_Move_Between_WorkAreas_With_Up_Down(Action activateAction, int expectedActivatedWorkArea, params Action[] moveActions)
+        {
+            //Arrange
+
+            //Act
+            Send(activateAction);
+            foreach(var a in moveActions) Send(a);
+
+            //Assert
+            if (expectedActivatedWorkArea == 1) _workArea1.Verify(x => x.Activate());
+            else if (expectedActivatedWorkArea == 2) _workArea2.Verify(x => x.Activate());
+            else if (expectedActivatedWorkArea == 3) _workArea3.Verify(x => x.Activate());
         }
     }
 }

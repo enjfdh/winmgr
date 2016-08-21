@@ -8,6 +8,7 @@ namespace WinMgr
         private IDisposable _actionSubscription;
         private IWindowLocator _windowLocator;
         private Mode _mode = Mode.Organise;
+        private IWorkAreaOrganiser _activeWorkArea;
 
         public Desk(IActionSource actionSource, IWindowLocator windowLocator, IWorkAreaFactory workAreaFactory)
         {
@@ -17,6 +18,8 @@ namespace WinMgr
             _workArea1 = workAreaFactory.CreateWorkArea1();
             _workArea2 = workAreaFactory.CreateWorkArea2();
             _workArea3 = workAreaFactory.CreateWorkArea3();
+
+            _activeWorkArea = _workArea1;
 
             _actionSubscription = _actionSource.Actions.Subscribe(HandleAction);
         }
@@ -50,63 +53,72 @@ namespace WinMgr
         {
             switch (action)
             {
-                case Action.WorkArea1Left:
-                    _workArea1.Left();
-                    break;
-                case Action.WorkArea1Right:
-                    _workArea1.Right();
-                    break;
                 case Action.WorkArea1Activate:
-                    _workArea2.Deactivate();
-                    _workArea3.Deactivate();
-                    _workArea1.Activate();
-                    break;
-                case Action.WorkArea2Left:
-                    _workArea2.Left();
-                    break;
-                case Action.WorkArea2Right:
-                    _workArea2.Right();
+                    Activate(_workArea1);
                     break;
                 case Action.WorkArea2Activate:
-                    _workArea1.Deactivate();
-                    _workArea3.Deactivate();
-                    _workArea2.Activate();
-                    break;
-                case Action.WorkArea3Left:
-                    _workArea3.Left();
-                    break;
-                case Action.WorkArea3Right:
-                    _workArea3.Right();
+                    Activate(_workArea2);
                     break;
                 case Action.WorkArea3Activate:
-                    _workArea1.Deactivate();
-                    _workArea2.Deactivate();
-                    _workArea3.Activate();
+                    Activate(_workArea3);
+                    break;
+                case Action.Left:
+                    _activeWorkArea.Left();
+                    break;
+                case Action.Right:
+                    _activeWorkArea.Right();
+                    break;
+                case Action.Down:
+                case Action.Up:
+                    ActivateNext(action);
                     break;
             }
+        }   
+
+        private void ActivateNext(Action action)
+        {
+            if (action == Action.Down)
+            {
+                if (_activeWorkArea == _workArea1) Activate(_workArea2);
+                else if (_activeWorkArea == _workArea2) Activate(_workArea3);
+                else if (_activeWorkArea == _workArea3) Activate(_workArea1);
+            }
+            else if (action == Action.Up)
+            {
+                if (_activeWorkArea == _workArea1) Activate(_workArea3);
+                else if (_activeWorkArea == _workArea2) Activate(_workArea1);
+                else if (_activeWorkArea == _workArea3) Activate(_workArea2);
+            }
+        }
+
+        private void Activate(IWorkAreaOrganiser workArea)
+        {
+            foreach (var w in new[] { _workArea1, _workArea2, _workArea3 })
+            {
+                if (w != workArea) w.Deactivate();
+            }
+            workArea.Activate();
+            _activeWorkArea = workArea;
         }
 
         private void HandleOrganiseAction(Action action)
         { 
             switch (action)
             {
-                case Action.WorkArea1Left:
-                    _workArea1.SetLeftWindow(_windowLocator.GetCurrentWindow());
+                case Action.WorkArea1Activate:
+                    _activeWorkArea = _workArea1;
                     break;
-                case Action.WorkArea1Right:
-                    _workArea1.SetRightWindow(_windowLocator.GetCurrentWindow());
+                case Action.WorkArea2Activate:
+                    _activeWorkArea = _workArea2;
                     break;
-                case Action.WorkArea2Left:
-                    _workArea2.SetLeftWindow(_windowLocator.GetCurrentWindow());
+                case Action.WorkArea3Activate:
+                    _activeWorkArea = _workArea3;
                     break;
-                case Action.WorkArea2Right:
-                    _workArea2.SetRightWindow(_windowLocator.GetCurrentWindow());
+                case Action.Left:
+                    _activeWorkArea.SetLeftWindow(_windowLocator.GetCurrentWindow());
                     break;
-                case Action.WorkArea3Left:
-                    _workArea3.SetLeftWindow(_windowLocator.GetCurrentWindow());
-                    break;
-                case Action.WorkArea3Right:
-                    _workArea3.SetRightWindow(_windowLocator.GetCurrentWindow());
+                case Action.Right:
+                    _activeWorkArea.SetRightWindow(_windowLocator.GetCurrentWindow());
                     break;
             }
         }
