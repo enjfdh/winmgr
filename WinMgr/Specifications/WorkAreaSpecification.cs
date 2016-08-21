@@ -184,8 +184,46 @@ namespace WinMgr.Specifications.WorkAreaSpecs
             //Arrange
 
             //Act
+            _subject.Activate();
 
             //Assert
+            Assert.Contains(_windowLeft.Pointer, _controller.ShownWindows);
+            Assert.Contains(_windowRight.Pointer, _controller.ShownWindows);
+        }
+
+        [Test]
+        public void Should_Minimise_Windows_On_Deactivate()
+        {
+            //Arrange
+
+            //Act
+            _subject.Deactivate();
+
+            //Assert
+            Assert.Contains(_windowLeft.Pointer, _controller.MinimisedWindows);
+            Assert.Contains(_windowRight.Pointer, _controller.MinimisedWindows);
+        }
+
+        [Test]
+        public void Should_Do_Nothing_If_Deactivated_And_No_Windows_Set()
+        {
+            //Arrange
+            _subject.SetLeftWindow(null);
+            _subject.SetRightWindow(null);
+
+            //Act
+            _subject.Deactivate();
+        }
+
+        [Test]
+        public void Should_Do_Nothing_If_Activated_AndNo_Windows_Set()
+        {
+            //Arrange
+            _subject.SetLeftWindow(null);
+            _subject.SetRightWindow(null);
+
+            //Act
+            _subject.Activate();
         }
     }
 }

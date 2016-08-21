@@ -27,12 +27,14 @@ namespace WinMgr
 
         public void Activate()
         {
-            throw new NotImplementedException();
+            if (LeftWindow != null) _controller.ShowWindow(LeftWindow.Pointer);
+            if (RightWindow != null) _controller.ShowWindow(RightWindow.Pointer);
         }
 
         public void Deactivate()
         {
-            throw new NotImplementedException();
+            if (LeftWindow != null) _controller.MinimiseWindow(LeftWindow.Pointer);
+            if (RightWindow != null) _controller.MinimiseWindow(RightWindow.Pointer);
         }
 
         public void Left()
