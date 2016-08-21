@@ -13,5 +13,6 @@
         WorkArea3Left,
         WorkArea3Right,
         WorkArea3Activate,
+        ActivateConsole,
     }
 }

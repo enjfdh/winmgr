@@ -16,11 +16,13 @@ namespace WinMgr
 
             HotKeyManager.RegisterHotKey(Keys.Left, KeyModifiers.Alt);
             HotKeyManager.RegisterHotKey(Keys.Right, KeyModifiers.Alt);
-            //HotKeyManager.RegisterHotKey(Keys., KeyModifiers.Alt);
+            HotKeyManager.RegisterHotKey(Keys.Clear, KeyModifiers.Alt);
 
             HotKeyManager.RegisterHotKey(Keys.End, KeyModifiers.Alt);
             HotKeyManager.RegisterHotKey(Keys.PageDown, KeyModifiers.Alt);
             HotKeyManager.RegisterHotKey(Keys.Down, KeyModifiers.Alt);
+
+            HotKeyManager.RegisterHotKey(Keys.Insert, KeyModifiers.Alt);
 
             HotKeyManager.HotKeyPressed += HotKeyManager_HotKeyPressed;
         }
@@ -45,6 +47,9 @@ namespace WinMgr
                 case Keys.Right:
                     _actions.OnNext(Action.WorkArea2Right);
                     break;
+                case Keys.Clear:
+                    _actions.OnNext(Action.WorkArea2Activate);
+                    break;
 
                 case Keys.End:
                     _actions.OnNext(Action.WorkArea3Left);
@@ -54,6 +59,10 @@ namespace WinMgr
                     break;
                 case Keys.Down:
                     _actions.OnNext(Action.WorkArea3Activate);
+                    break;
+
+                case Keys.Insert:
+                    _actions.OnNext(Action.ActivateConsole);
                     break;
             }
         }
